@@ -1,5 +1,5 @@
 use crate::typed::{
-    HeadingLevel, Page,
+    HeadingLevel, ListStyle, Page,
     Tag::{self, *},
 };
 
@@ -22,7 +22,10 @@ pub fn parse_gemtext(s: &str) -> Result<Page, GemTextParseError> {
         if preformatted && !line.starts_with("```") {
             preformatted_text.push(line);
         } else if list_before && !line.starts_with("* ") {
-            page.push(Tag::Ul { body: list.clone() });
+            page.push(Tag::List {
+                body: list.clone(),
+                style: ListStyle::Disc,
+            });
             list_before = false;
             list.clear();
         } else if line.starts_with("=>") {

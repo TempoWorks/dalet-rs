@@ -32,8 +32,7 @@ pub enum Tag {
     H { body: Text, heading: HeadingLevel },
     P { body: Body },
     LineBreak,
-    Ul { body: Vec<Tag> },
-    Ol { body: Vec<Tag> },
+    List { body: Vec<Tag>, style: ListStyle },
     Row { body: Vec<Tag> },
     Link { body: Option<Body>, dref: Text },
     NavLink { body: Option<Body>, dref: Text },
@@ -58,6 +57,13 @@ pub enum Tag {
 }
 
 pub type Text = String;
+
+#[derive(AutoFrom, Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
+pub enum ListStyle {
+    Disc,
+    Decimal,
+    None,
+}
 
 #[derive(AutoFrom, Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub enum Body {
