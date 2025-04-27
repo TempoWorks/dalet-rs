@@ -90,6 +90,20 @@ pub fn parse_gemtext(s: &str) -> Result<Page, GemTextParseError> {
         }
     }
 
+    if list_before {
+        page.push(Tag::List {
+            body: list.clone(),
+            style: ListStyle::Disc,
+        });
+    }
+
+    if preformatted {
+        page.push(Code {
+            body: preformatted_text.join("\n"),
+            language: None,
+        });
+    }
+
     Ok(Page {
         title: None,
         description: None,
