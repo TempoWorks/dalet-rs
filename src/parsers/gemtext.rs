@@ -16,6 +16,8 @@ pub fn parse_gemtext(s: &str) -> Result<Page, GemTextParseError> {
     let mut list_before = false;
     let mut list: Vec<Tag> = Vec::new();
 
+    let mut title: Option<String> = None;
+
     for line in s.lines() {
         let mut line = line.trim().to_owned();
 
@@ -51,9 +53,14 @@ pub fn parse_gemtext(s: &str) -> Result<Page, GemTextParseError> {
                 }),
             };
         } else if line.starts_with("# ") {
-            let body = line.split_off(2);
+            let body = line.split_off(2).trim().to_owned();
+
+            if title == None {
+                title = Some(body.clone())
+            }
+
             page.push(H {
-                body: body.trim().into(),
+                body,
                 heading: HeadingLevel::One,
             });
         } else if line.starts_with("## ") {
@@ -105,7 +112,7 @@ pub fn parse_gemtext(s: &str) -> Result<Page, GemTextParseError> {
     }
 
     Ok(Page {
-        title: None,
+        title,
         description: None,
         body: page,
     })

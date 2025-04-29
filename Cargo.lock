@@ -204,7 +204,7 @@ dependencies = [
 
 [[package]]
 name = "dalet"
-version = "1.0.0-pre.27"
+version = "1.0.0-pre.28"
 dependencies = [
  "ariadne",
  "bitcode",
