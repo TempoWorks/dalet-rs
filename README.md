@@ -1,6 +1,6 @@
 <div align="center">
 
-<img alt="dalet logo" src="https://github.com/TempoWorks/.github/raw/main/imgs/dalet-rs.png" width='256'>
+<img alt="dalet-rs logo" src="https://github.com/TempoWorks/.github/raw/main/imgs/dalet-rs.png" width='256'>
 
 # dalet-rs
 
