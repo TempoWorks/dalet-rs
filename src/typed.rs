@@ -52,7 +52,7 @@ pub enum Tag {
     NavButton { body: Option<Body>, dref: Text },
 
     /// Image with optional alt.
-    Image { src: Text, alt: Option<String> },
+    Image { src: Text, alt: Option<Text> },
     /// Table
     Table { body: Vec<TableRows> },
     /// List with custom marker style.
@@ -130,7 +130,7 @@ pub enum Align {
 
 #[derive(AutoFrom, Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub enum Body {
-    Text(String),
+    Text(Text),
     Tags(Vec<Tag>),
 }
 
