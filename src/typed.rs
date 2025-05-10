@@ -130,7 +130,7 @@ pub enum Align {
 
 #[derive(AutoFrom, Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub enum Body {
-    Text(Text),
+    Text(String),
     Tags(Vec<Tag>),
 }
 
