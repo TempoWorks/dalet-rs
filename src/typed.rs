@@ -8,14 +8,21 @@ pub struct Page {
     pub title: Option<Text>,
     pub description: Option<Text>,
     pub body: Vec<Tag>,
+    pub variables: Option<Vec<Text>>,
 }
 
 impl Page {
-    pub fn new(title: Option<Text>, description: Option<Text>, body: Vec<Tag>) -> Self {
+    pub fn new(
+        title: Option<Text>,
+        description: Option<Text>,
+        body: Vec<Tag>,
+        variables: Option<Vec<Text>>,
+    ) -> Self {
         Self {
             title,
             description,
             body,
+            variables,
         }
     }
 }
@@ -28,41 +35,97 @@ pub enum TableRows {
 
 #[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub enum Tag {
-    El { body: Body },
-    H { body: Text, heading: HeadingLevel },
-    P { body: Body },
-    LineBreak,
-    List { body: Vec<Tag>, style: ListStyle },
-    Row { body: Vec<Tag> },
+    /// Default element without styles.
+    Element { body: Body },
+    /// Heading. Bold, big, with vertical margin.
+    Heading { body: Text, heading: HeadingLevel },
+    /// Paragraph with vertical margin.
+    Paragraph { body: Body },
+
+    /// Link to another resource. Open in new tab.
     Link { body: Option<Body>, dref: Text },
+    /// Link to another resource. Open in current tab.
     NavLink { body: Option<Body>, dref: Text },
+    /// Link to another resource with button style. Open in new tab.
     Button { body: Option<Body>, dref: Text },
+    /// Link to another resource with button style. Open in current tab.
     NavButton { body: Option<Body>, dref: Text },
-    Img { src: Text },
+
+    /// Image with optional alt.
+    Image { src: Text, alt: Option<String> },
+    /// Table
     Table { body: Vec<TableRows> },
-    HorizontalBreak,
-    B { body: Text },
-    I { body: Text },
-    Bq { body: Body },
+    /// List with custom marker style.
+    List { body: Vec<Tag>, style: ListStyle },
+
+    /// Bold text
+    Bold { body: Text },
+    /// Italic text
+    Italic { body: Text },
+    /// Strikethrough text
+    Strikethrough { body: Text },
+    /// Superscript text
+    Superscript { body: Text },
+    /// Subscript text
+    Subscript { body: Text },
+
+    /// Link to FootNote
     FootLink { footnote: u64 },
+    /// FootNote
     FootNote { body: Text, footnote: u64 },
-    A { anchor: Text },
-    S { body: Text },
-    Sup { body: Text },
-    Sub { body: Text },
-    Disc { body: Body },
-    Carousel { body: Vec<Tag> },
+    /// Anchor for using in links (Link { dref: "#id" })
+    Anchor { id: Text },
+
+    /// Preformatted block of text.
+    Preformatted { body: Text },
+    /// BlockQuote
+    BlockQuote { body: Body },
+    /// Block of code. With highlighting.
     Code { body: Text, language: Option<Text> },
-    Pre { body: Text },
+
+    /// Block with a lighter background and padding.
+    Block { body: Vec<Tag> },
+    /// Flex block.
+    Flex {
+        body: Vec<Tag>,
+        wrap: bool,
+        align_x: Option<Align>,
+        align_y: Option<Align>,
+    },
+    /// Grid block.
+    Grid {
+        body: Vec<Tag>,
+        align_x: Option<Align>,
+        align_y: Option<Align>,
+    },
+    /// Block that can be opened. With optional title.
+    Disclosure { body: Body, title: Option<Text> },
+    /// Carousel of blocks with buttons for switching between them.
+    Carousel { body: Vec<Tag> },
+
+    /// Display variable from variables in page by index.
+    Variable { idx: u64 },
+
+    /// LineBreak.
+    LineBreak,
+    /// Horizontal line
+    HorizontalBreak,
 }
 
 pub type Text = String;
 
-#[derive(AutoFrom, Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
 pub enum ListStyle {
     Disc,
     Decimal,
     None,
+}
+
+#[derive(Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]
+pub enum Align {
+    Start,
+    Center,
+    End,
 }
 
 #[derive(AutoFrom, Debug, Serialize, Deserialize, Clone, PartialEq, Eq)]

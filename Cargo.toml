@@ -1,6 +1,6 @@
 [package]
 name = "dalet"
-version = "1.0.0-pre.30"
+version = "1.0.0-pre.31"
 edition = "2021"
 authors = ["artegoser"]
 license = "MIT"
