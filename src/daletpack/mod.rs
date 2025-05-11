@@ -1,4 +1,4 @@
-use crate::typed::Page;
+use crate::types::Page;
 
 use flate2::{read::DeflateDecoder, write::DeflateEncoder, Compression};
 use std::io::{Read, Write};
